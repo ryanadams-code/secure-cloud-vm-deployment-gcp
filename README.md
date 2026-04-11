@@ -11,4 +11,15 @@
 The landing page is reachable via the VM public IP and validates successful 
 internet-facing deployment.
 
-### Security Highlights- Layered firewall controls- Minimal exposed ports- fail2ban active- dedicated admin sudo user
+### Security Highlights- Layered firewall controls- Minimal exposed ports- fail2ban active- dedicated admin sudo usergit
+
+**Architecture Decision: Centralized Monitoring (Hub & Spoke)**
+
+- **Hub (Control Plane):** Admin Lab Server (VirtualBox, 192.168.57.103).
+  - Runs: Prometheus, Grafana, Alertmanager.
+  - Reason: Stable local network, sufficient RAM (4GB+), zero latency for dashboards.
+- **Spoke (Workload):** Google Cloud Compute Engine (Public Cloud).
+  - Runs: Nginx (App) + Node Exporter (Metrics Endpoint).
+  - Reason: Demonstrates ability to securely expose telemetry data over the public internet to a centralized collector.
+
+This design avoids redundant resource consumption on the low-tier `e2-micro` instance and mirrors real-world enterprise monitoring topologies.
