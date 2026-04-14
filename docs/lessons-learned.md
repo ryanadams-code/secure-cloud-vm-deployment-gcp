@@ -1,26 +1,23 @@
-# Lessons Learned - Day 1
+# Lessons Learned
 
-The biggest lesson from Day 1 was understanding that Google Cloud's VM 
-estimate page shows the retail list price before free-tier savings are 
-applied.
+This project ended up being a really useful bridge between local infrastructure labs and actual cloud operations.
 
-At first this created confusion because the VM was already aligned with free
-tier eligible specifications.
+A few practical lessons stood out during the build:
 
-Another important lesson was checking hidden defaults such as snapshot 
-schedules and premium settings, since these can silently increase cost.
+## 1. Free Tier Still Shows Raw Cost
+Even under free tier, GCP still shows raw usage cost before applying savings.
 
-I also learned the importance of validating CPU architecture compatibility 
-early. The ARM vs x86 mismatch could have been avoided by confirming the 
-machine family first.
+This was useful for learning how billing visibility works in real cloud environments.
 
-From the web deployment side, the UTF-8 issue reminded me that infrastructure 
-work also overlaps with application-level debugging.
+## 2. Public IP Dependency Adds Operational Friction
+Stopping and starting the VM can change the public IP, which means monitoring targets may need updates.
 
-The strongest technical takeaway today was the value of defense in depth:
-    - cloud firewall
-    - host firewall
-    - fail2ban
-    
-This project now feels closer to a real production deployment than a simple 
-VM lab.
+This highlighted why stable private overlay networking is valuable.
+
+## 3. Hybrid Monitoring Is a Great Intermediate Step
+Before jumping straight into zero-trust private networking, validating the scrape path over the internet helped prove the observability flow first.
+
+## 4. Alert Validation Should Include Recovery
+Seeing both FIRING and RESOLVED states gave much better confidence than only testing the trigger condition.
+
+This mirrors real incident lifecycle visibility.
